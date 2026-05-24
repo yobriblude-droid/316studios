@@ -473,10 +473,10 @@ async function createApp() {
      res.json(userFiles);
    });
 
-   app.post('/api/client/media-requests', authenticateClientToken, async (req, res) => {
-     const { category, message, link, requestType: legacyType, requestDetails: legacyDetails } = req.body;
-     let requestType: string;
-     let requestDetails: string;
+app.post('/api/client/media-requests', authenticateClientToken, async (req, res) => {
+      const { category, message, link, requestType: legacyType, requestDetails: legacyDetails } = req.body;
+      let requestType: 'file' | 'external_link' | 'client_request';
+      let requestDetails: string;
      if (category && message) {
        if (!boundedText(message, 3, 2000)) {
          return res.status(400).json({ error: 'Message required (3–2000 characters)' });
@@ -1635,7 +1635,7 @@ async function startServer() {
   const httpServer = createHttpServer(app);
 
   if (!process.env.VERCEL) {
-    socketApi = attachSocketServer(httpServer, db as Parameters<typeof attachSocketServer>[1], requireJwtSecret());
+    socketApi = attachSocketServer(httpServer, database as unknown as Parameters<typeof attachSocketServer>[1], requireJwtSecret());
   }
 
   httpServer.listen(PORT, "0.0.0.0", () => {

@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { randomUUID } from 'node:crypto';
 
 import { qExec, qGet, qAll, qRun, getLocalSqlite } from './db/driver';
 
@@ -110,7 +111,7 @@ export interface TestimonialRow {
 export interface MediaRequestRow {
   id: string;
   clientId: string;
-  requestType: 'file' | 'external_link';
+  requestType: 'file' | 'external_link' | 'client_request';
   requestDetails: string;
   status: 'open' | 'in_progress' | 'fulfilled' | 'rejected' | 'cancelled';
   assignedAdminId: string | null;
@@ -235,7 +236,7 @@ export interface BookingCreateInput {
 export interface MediaRequestCreateInput {
   id?: string;
   clientId: string;
-  requestType: 'file' | 'external_link';
+  requestType: 'file' | 'external_link' | 'client_request';
   requestDetails: string;
   status?: 'open' | 'in_progress' | 'fulfilled' | 'rejected' | 'cancelled';
   assignedAdminId?: string | null;
@@ -564,14 +565,16 @@ export default {
     } | undefined;
   },
   
-  getUserById: async (id: string) => {
-    return await qGet('SELECT * FROM users WHERE id = ?', [id]) as { 
-      id: string; 
-      email: string; 
-      password: string; 
-      name: string; 
-      role: string 
-    } | undefined;
+getUserById: async (id: string) => {
+     return await qGet('SELECT * FROM users WHERE id = ?', [id]) as { 
+       id: string; 
+       email: string; 
+       password: string; 
+       name: string; 
+       role: string;
+       staffPermissions?: string;
+       avatarUrl?: string;
+     } | undefined;
   },
   
   createUser: async (user: {
@@ -678,9 +681,9 @@ getProjectById: async (id: string) => {
     await qRun(`UPDATE portfolios SET ${fields.join(', ')} WHERE id = @id`, values);
   },
 
-  deletePortfolio: async (id: string) => {
-    await qRun('UPDATE projects SET portfolioId = NULL WHERE portfolioId = ?', id);
-    await qRun('DELETE FROM portfolios WHERE id = ?', id);
+deletePortfolio: async (id: string) => {
+     await qRun('UPDATE projects SET portfolioId = NULL WHERE portfolioId = ?', [id]);
+     await qRun('DELETE FROM portfolios WHERE id = ?', [id]);
   },
 
   createProject: async (project: ProjectCreateInput) => {
@@ -735,8 +738,8 @@ getProjectById: async (id: string) => {
      return await qGet('SELECT * FROM projects WHERE id = ?', [id]) as ProjectRow | undefined;
    },
   
-  deleteProject: async (id: string) => {
-    await qRun('DELETE FROM projects WHERE id = ?', id);
+deleteProject: async (id: string) => {
+     await qRun('DELETE FROM projects WHERE id = ?', [id]);
     return true;
   },
 
@@ -796,10 +799,10 @@ getProjectById: async (id: string) => {
      return await qGet('SELECT * FROM services WHERE id = ?', [id]) as ServiceRow | undefined;
    },
   
-  deleteService: async (id: string) => {
-    await qRun('DELETE FROM services WHERE id = ?', id);
-    return true;
-  },
+deleteService: async (id: string) => {
+     await qRun('DELETE FROM services WHERE id = ?', [id]);
+     return true;
+   },
 
   deleteServicesByIds: async (ids: string[]) => {
     if (!ids.length) return;
@@ -826,8 +829,8 @@ getProjectById: async (id: string) => {
     } as ClientFileWithParsedComments;
   },
 
-  getClientFileById: async (id: string, userId: string) => {
-    const row = await qGet('SELECT * FROM client_files WHERE id = ? AND userId = ?', id, userId) as ClientFileRow | undefined;
+getClientFileById: async (id: string, userId: string) => {
+     const row = await qGet('SELECT * FROM client_files WHERE id = ? AND userId = ?', [id, userId]) as ClientFileRow | undefined;
     if (!row) return null;
     return {
       ...row,
@@ -912,7 +915,7 @@ getProjectById: async (id: string) => {
        UPDATE client_files SET ${fields.join(', ')} WHERE id = @id AND userId = @userId
      `, values);
      
-     const row = await qGet('SELECT * FROM client_files WHERE id = ? AND userId = ?', id, userId) as ClientFileRow | undefined;
+     const row = await qGet('SELECT * FROM client_files WHERE id = ? AND userId = ?', [id, userId]) as ClientFileRow | undefined;
      if (!row) return null;
      return {
        ...row,
@@ -921,15 +924,15 @@ getProjectById: async (id: string) => {
      } as ClientFileWithParsedComments;
    },
   
-  deleteClientFile: async (id: string, userId: string) => {
-    await qRun('DELETE FROM client_files WHERE id = ? AND userId = ?', id, userId);
-    return true;
-  },
+deleteClientFile: async (id: string, userId: string) => {
+     await qRun('DELETE FROM client_files WHERE id = ? AND userId = ?', [id, userId]);
+     return true;
+   },
 
-  deleteClientFileAdmin: async (id: string) => {
-    await qRun('DELETE FROM client_files WHERE id = ?', id);
-    return true;
-  },
+   deleteClientFileAdmin: async (id: string) => {
+     await qRun('DELETE FROM client_files WHERE id = ?', [id]);
+     return true;
+   },
 
   getClientFilesByUserIdAdmin: async (userId: string) => {
     const rows = await qAll('SELECT * FROM client_files WHERE userId = ?', [userId]) as ClientFileRow[];
@@ -989,10 +992,10 @@ getProjectById: async (id: string) => {
      return await qGet('SELECT * FROM hero_slides WHERE id = ?', [id]) as HeroSlideRow | undefined;
    },
   
-  deleteHeroSlide: async (id: string) => {
-    await qRun('DELETE FROM hero_slides WHERE id = ?', id);
-    return true;
-  },
+deleteHeroSlide: async (id: string) => {
+     await qRun('DELETE FROM hero_slides WHERE id = ?', [id]);
+     return true;
+   },
 
   deleteHeroSlidesByIds: async (ids: string[]) => {
     if (!ids.length) return;
@@ -1012,9 +1015,9 @@ getProjectById: async (id: string) => {
     return await qAll('SELECT * FROM invoices WHERE userId = ?', [userId]) as InvoiceRow[];
   },
   
-  getInvoiceById: async (id: string, userId: string) => {
-    return await qGet('SELECT * FROM invoices WHERE id = ? AND userId = ?', id, userId) as InvoiceRow | undefined;
-  },
+getInvoiceById: async (id: string, userId: string) => {
+     return await qGet('SELECT * FROM invoices WHERE id = ? AND userId = ?', [id, userId]) as InvoiceRow | undefined;
+   },
   
   createInvoice: async (invoice: InvoiceCreateInput) => {
     const id = invoice.id || randomUUID();
@@ -1056,7 +1059,7 @@ getProjectById: async (id: string) => {
        UPDATE invoices SET ${fields.join(', ')} WHERE id = @id AND userId = @userId
      `, values);
      
-     return await qGet('SELECT * FROM invoices WHERE id = ? AND userId = ?', id, userId) as InvoiceRow | undefined;
+     return await qGet('SELECT * FROM invoices WHERE id = ? AND userId = ?', [id, userId]) as InvoiceRow | undefined;
    },
   
   // Referral operations
@@ -1167,8 +1170,8 @@ getProjectById: async (id: string) => {
     return await qGet('SELECT * FROM media_requests WHERE id = ?', [id]) as MediaRequestRow | undefined;
   },
 
-  deleteMediaRequest: async (id: string) => {
-    await qRun('DELETE FROM media_requests WHERE id = ?', id);
+deleteMediaRequest: async (id: string) => {
+     await qRun('DELETE FROM media_requests WHERE id = ?', [id]);
     return true;
   },
 
@@ -1197,11 +1200,12 @@ getProjectById: async (id: string) => {
      return await qAll('SELECT * FROM bookings') as BookingRow[];
    },
 
-   getBookingsByEmail: async (email: string) => {
-     return db
-       .prepare('SELECT * FROM bookings WHERE LOWER(email) = LOWER(?) ORDER BY date ASC')
-       .all(email) as BookingRow[];
-   },
+getBookingsByEmail: async (email: string) => {
+      const sqlite = getLocalSqlite();
+      return sqlite
+        .prepare('SELECT * FROM bookings WHERE LOWER(email) = LOWER(?) ORDER BY date ASC')
+        .all(email) as BookingRow[];
+    },
    
    getInvoiceByIdAdmin: async (id: string) => {
      return await qGet('SELECT * FROM invoices WHERE id = ?', [id]) as InvoiceRow | undefined;
@@ -1249,66 +1253,70 @@ getProjectById: async (id: string) => {
      return await qGet('SELECT * FROM notifications WHERE id = ?', [id]) as NotificationRow;
    },
 
-   getNotificationsByUserId: async (userId: string, limit = 50) => {
-     return db
-       .prepare('SELECT * FROM notifications WHERE userId = ? ORDER BY createdAt DESC LIMIT ?')
-       .all(userId, limit) as NotificationRow[];
+getNotificationsByUserId: async (userId: string, limit = 50) => {
+      const sqlite = getLocalSqlite();
+      return sqlite
+        .prepare('SELECT * FROM notifications WHERE userId = ? ORDER BY createdAt DESC LIMIT ?')
+        .all(userId, limit) as NotificationRow[];
+    },
+
+    getUnreadNotificationCount: async (userId: string) => {
+      const sqlite = getLocalSqlite();
+      const row = sqlite
+        .prepare('SELECT COUNT(*) as count FROM notifications WHERE userId = ? AND read = 0')
+        .get(userId) as { count: number };
+      return row.count;
+    },
+
+markNotificationRead: async (id: string, userId: string) => {
+      await qRun('UPDATE notifications SET read = 1 WHERE id = ? AND userId = ?', [id, userId]);
+      return await qGet('SELECT * FROM notifications WHERE id = ? AND userId = ?', [id, userId]) as
+        | NotificationRow
+        | undefined;
+    },
+
+    markAllNotificationsRead: async (userId: string) => {
+      await qRun('UPDATE notifications SET read = 1 WHERE userId = ?', [userId]);
+      return true;
    },
 
-   getUnreadNotificationCount: async (userId: string) => {
-     const row = db
-       .prepare('SELECT COUNT(*) as count FROM notifications WHERE userId = ? AND read = 0')
-       .get(userId) as { count: number };
-     return row.count;
-   },
+deleteNotification: async (id: string, userId: string) => {
+      await qRun('DELETE FROM notifications WHERE id = ? AND userId = ?', [id, userId]);
+      return true;
+    },
 
-   markNotificationRead: async (id: string, userId: string) => {
-     await qRun('UPDATE notifications SET read = 1 WHERE id = ? AND userId = ?', id, userId);
-     return await qGet('SELECT * FROM notifications WHERE id = ? AND userId = ?', id, userId) as
-       | NotificationRow
-       | undefined;
-   },
+getNotificationPreferences: async (userId: string) => {
+      const sqlite = getLocalSqlite();
+      let row = sqlite
+        .prepare('SELECT * FROM notification_preferences WHERE userId = ?')
+        .get(userId) as NotificationPreferencesRow | undefined;
+      if (!row) {
+        await qRun(`
+          INSERT INTO notification_preferences (userId, emailEnabled, pushEnabled, commentAlerts, approvalAlerts, requestAlerts, mentionAlerts)
+          VALUES (@userId, 1, 1, 1, 1, 1, 1)
+        `, { userId });
+        row = sqlite
+          .prepare('SELECT * FROM notification_preferences WHERE userId = ?')
+          .get(userId) as NotificationPreferencesRow;
+      }
+      return row;
+    },
 
-   markAllNotificationsRead: async (userId: string) => {
-     await qRun('UPDATE notifications SET read = 1 WHERE userId = ?', userId);
-     return true;
-   },
-
-   deleteNotification: async (id: string, userId: string) => {
-     await qRun('DELETE FROM notifications WHERE id = ? AND userId = ?', id, userId);
-     return true;
-   },
-
-   getNotificationPreferences: async (userId: string) => {
-     let row = db
-       .prepare('SELECT * FROM notification_preferences WHERE userId = ?')
-       .get(userId) as NotificationPreferencesRow | undefined;
-     if (!row) {
-       await qRun(`
-         INSERT INTO notification_preferences (userId, emailEnabled, pushEnabled, commentAlerts, approvalAlerts, requestAlerts, mentionAlerts)
-         VALUES (@userId, 1, 1, 1, 1, 1, 1)
-       `, { userId });
-       row = db
-         .prepare('SELECT * FROM notification_preferences WHERE userId = ?')
-         .get(userId) as NotificationPreferencesRow;
-     }
-     return row;
-   },
-
-   updateNotificationPreferences: async (
-     userId: string,
-     updates: Partial<{
-       emailEnabled: boolean;
-       pushEnabled: boolean;
-       commentAlerts: boolean;
-       approvalAlerts: boolean;
-       requestAlerts: boolean;
-       mentionAlerts: boolean;
-     }>
-   ) => {
-     const existingPrefs = db
-       .prepare('SELECT * FROM notification_preferences WHERE userId = ?')
-       .get(userId) as NotificationPreferencesRow | undefined;
+updateNotificationPreferences: async (
+      userId: string,
+      updates: Partial<{
+        emailEnabled: boolean;
+        pushEnabled: boolean;
+        commentAlerts: boolean;
+        approvalAlerts: boolean;
+        requestAlerts: boolean;
+        mentionAlerts: boolean;
+      }>
+    ) => {
+      const sqlite = getLocalSqlite();
+      const existingPrefs = sqlite
+        .prepare('SELECT * FROM notification_preferences WHERE userId = ?')
+        .get(userId) as NotificationPreferencesRow | undefined;
      if (!existingPrefs) {
        await qRun(`
          INSERT INTO notification_preferences (userId, emailEnabled, pushEnabled, commentAlerts, approvalAlerts, requestAlerts, mentionAlerts)
@@ -1393,28 +1401,28 @@ getProjectById: async (id: string) => {
      `, row);
    },
 
-   updateUserPassword: async (id: string, hashed: string) => {
-     await qRun('UPDATE users SET password = ? WHERE id = ?', hashed, id);
-   },
+updateUserPassword: async (id: string, hashed: string) => {
+      await qRun('UPDATE users SET password = ? WHERE id = ?', [hashed, id]);
+    },
 
-   deleteUsersByIds: async (ids: string[]) => {
-     if (ids.length === 0) return;
-     const placeholders = ids.map(() => '?').join(',');
-     await qRun(`DELETE FROM users WHERE id IN (${placeholders}) AND role != 'admin'`, ids);
-   },
+    deleteUsersByIds: async (ids: string[]) => {
+      if (ids.length === 0) return;
+      const placeholders = ids.map(() => '?').join(',');
+      await qRun(`DELETE FROM users WHERE id IN (${placeholders}) AND role != 'admin'`, ids);
+    },
 
-   getBlogPosts: async (publishedOnly = false) => {
+    getBlogPosts: async (publishedOnly = false) => {
      const q = publishedOnly
        ? `SELECT bp.*, u.name as authorName FROM blog_posts bp JOIN users u ON u.id = bp.authorId WHERE bp.published = 1 ORDER BY bp.publishedAt DESC`
        : `SELECT bp.*, u.name as authorName FROM blog_posts bp JOIN users u ON u.id = bp.authorId ORDER BY bp.updatedAt DESC`;
      return await qAll(q) as Array<Record<string, unknown>>;
    },
 
-   getBlogPostBySlug: async (slug: string) => {
-     return await qGet(
-       `SELECT bp.*, u.name as authorName FROM blog_posts bp JOIN users u ON u.id = bp.authorId WHERE bp.slug = ?`
-     , slug) as Record<string, unknown> | undefined;
-   },
+getBlogPostBySlug: async (slug: string) => {
+      return await qGet(
+        `SELECT bp.*, u.name as authorName FROM blog_posts bp JOIN users u ON u.id = bp.authorId WHERE bp.slug = ?`
+      , [slug]) as Record<string, unknown> | undefined;
+    },
 
    getBlogPostById: async (id: string) => {
      return await qGet('SELECT * FROM blog_posts WHERE id = ?', [id]) as Record<string, unknown> | undefined;
@@ -1493,9 +1501,9 @@ getProjectById: async (id: string) => {
      await qRun(`UPDATE blog_posts SET ${fields.join(', ')} WHERE id = @id`, values);
    },
 
-   deleteBlogPost: async (id: string) => {
-     await qRun('DELETE FROM blog_posts WHERE id = ?', id);
-   },
+deleteBlogPost: async (id: string) => {
+      await qRun('DELETE FROM blog_posts WHERE id = ?', [id]);
+    },
 
    deleteBlogPostsByIds: async (ids: string[]) => {
      if (ids.length === 0) return;
@@ -1540,19 +1548,13 @@ getProjectById: async (id: string) => {
      });
    },
 
-   markMessagesReadByClient: async (clientId: string) => {
-     await qRun('UPDATE client_messages SET readByClient = 1 WHERE clientId = ? AND senderRole != ?', 
-       clientId,
-       'client'
-     );
-   },
+markMessagesReadByClient: async (clientId: string) => {
+      await qRun('UPDATE client_messages SET readByClient = 1 WHERE clientId = ? AND senderRole != ?', [clientId, 'client']);
+    },
 
-   markMessagesReadByStaff: async (clientId: string) => {
-     await qRun('UPDATE client_messages SET readByStaff = 1 WHERE clientId = ? AND senderRole = ?', 
-       clientId,
-       'client'
-     );
-   },
+    markMessagesReadByStaff: async (clientId: string) => {
+      await qRun('UPDATE client_messages SET readByStaff = 1 WHERE clientId = ? AND senderRole = ?', [clientId, 'client']);
+    },
 
    getAdminInbox: async () => {
      return await qAll(`
@@ -1667,9 +1669,9 @@ getProjectById: async (id: string) => {
      await qRun(`UPDATE page_widgets SET ${fields.join(', ')} WHERE id = @id`, values);
    },
 
-   deletePageWidget: async (id: string) => {
-     await qRun('DELETE FROM page_widgets WHERE id = ?', id);
-   },
+deletePageWidget: async (id: string) => {
+      await qRun('DELETE FROM page_widgets WHERE id = ?', [id]);
+    },
 
    deleteAllContent: async () => {
      await qExec(`

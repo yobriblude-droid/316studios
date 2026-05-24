@@ -10,7 +10,7 @@
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
 import { randomUUID } from 'crypto';
-import database, { db, initializeDatabase } from '../src/database';
+import database, { getLocalSqlite, initializeDatabase } from '../src/database';
 
 dotenv.config();
 
@@ -36,10 +36,11 @@ async function main() {
   await initializeDatabase();
 
   const hashed = await bcrypt.hash(password, 10);
-  const existing = database.getUserByEmail(email);
+  const existing = await database.getUserByEmail(email);
 
   if (existing) {
-    db.prepare('UPDATE users SET password = ?, role = ?, name = ? WHERE id = ?').run(
+    const sqlite = getLocalSqlite();
+    sqlite.prepare('UPDATE users SET password = ?, role = ?, name = ? WHERE id = ?').run(
       hashed,
       'admin',
       name,
@@ -47,7 +48,7 @@ async function main() {
     );
     console.log(`Admin updated: ${email}`);
   } else {
-    database.createUser({
+    await database.createUser({
       id: randomUUID(),
       email,
       password: hashed,

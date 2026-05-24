@@ -20,7 +20,7 @@ type ClientFile = {
 };
 
 type DbApi = {
-  getUserById: (id: string) => { id: string; email: string; name: string; role: string } | undefined;
+  getUserById: (id: string) => { id: string; email: string; name: string; role: string; staffPermissions?: string } | undefined;
   getUserByEmail: (email: string) => { id: string; email: string; name: string; role: string } | undefined;
   getClientFileById: (id: string, userId: string) => ClientFile | undefined;
   getClientFileByIdOnly: (id: string) => ClientFile | undefined;
@@ -76,7 +76,7 @@ export type SocketServerApi = {
     userId: string,
     notification: {
       userId: string;
-      type: 'comment' | 'approval' | 'request' | 'invoice' | 'booking' | 'mention' | 'system';
+      type: 'comment' | 'approval' | 'request' | 'invoice' | 'booking' | 'mention' | 'system' | 'message';
       title: string;
       body: string;
       link?: string | null;

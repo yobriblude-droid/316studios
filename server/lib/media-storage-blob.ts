@@ -34,7 +34,7 @@ export async function listMediaFilesBlob(subdir: unknown) {
   const prefix = `media/${safeSub}/`;
   const { blobs } = await list({ prefix, token: process.env.BLOB_READ_WRITE_TOKEN });
   return blobs
-    .filter((b) => IMAGE_MIMES.some((m) => b.contentType?.includes(m.split('/')[1] || '')) || /\.(jpe?g|png|gif|webp)$/i.test(b.pathname))
+    .filter((b) => /\.(jpe?g|png|gif|webp)$/i.test(b.pathname))
     .map((b) => ({
       name: b.pathname.split('/').pop() || b.pathname,
       url: b.url,
