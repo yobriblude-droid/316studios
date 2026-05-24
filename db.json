@@ -1,0 +1,155 @@
+{
+  "users": [
+    {
+      "id": "admin1",
+      "email": "admin@316studios.co.ke",
+      "password": "$2a$10$8K5kXJZ5QeG5Y5Z5QeG5YuJ5QeG5Y5Z5QeG5YuJ5QeG5Y5Z5QeG5Y",
+      "name": "Admin User",
+      "role": "admin"
+    },
+    {
+      "id": "user123",
+      "email": "client@example.com",
+      "password": "$2a$10$8K5kXJZ5QeG5Y5Z5QeG5YuJ5QeG5Y5Z5QeG5YuJ5QeG5Y5Z5QeG5Y",
+      "name": "John Doe",
+      "role": "client"
+    },
+    {
+      "id": "1779105910397",
+      "email": "jangounchained@client.com",
+      "password": "$2b$10$EZBFZTXWrD0EHCj/ZXyaLOeTM3CXs6NofG2xNg8N4pbU6axCI6yXC",
+      "name": "jango unchained",
+      "role": "client"
+    }
+  ],
+  "projects": [
+    {
+      "id": "1",
+      "title": "Nairobi Rhythms",
+      "category": "Portraits",
+      "description": "Capturing the vibrant energy of Nairobi's streets.",
+      "images": [
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+TmFpcm9iaSBSaHl0aG1zIC0gMTwvdGV4dD48L3N2Zz4=",
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+TmFpcm9iaSBSaHl0aG1zIC0gMjwvdGV4dD48L3N2Zz4=",
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+TmFpcm9iaSBSaHl0aG1zIC0gMzwvdGV4dD48L3N2Zz4="
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Maasai Mara Weddings",
+      "category": "Weddings",
+      "description": "Elegant destination wedding photography.",
+      "images": [
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+TWFhc2FpIE1hcmEgV2VkZGluZ3MgLSAxPC90ZXh0Pjwvc3ZnPg==",
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+TWFhc2FpIE1hcmEgV2VkZGluZ3MgLSAyPC90ZXh0Pjwvc3ZnPg=="
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Corporate Essentials",
+      "category": "Corporate Headshots",
+      "description": "Professional headshots for Kenya's business leaders.",
+      "images": [
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+Q29ycG9yYXRlIEVzc2VudGlhbHMgLSAxPC90ZXh0Pjwvc3ZnPg==",
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+Q29ycG9yYXRlIEVzc2VudGlhbHMgLSAyPC90ZXh0Pjwvc3ZnPg=="
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Nairobi Fashion Week",
+      "category": "Fashion",
+      "description": "Editorial photography from the latest runway shows.",
+      "images": [
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+TmFpcm9iaSBGYXNoaW9uIFdlZWsgLSAxPC90ZXh0Pjwvc3ZnPg==",
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+TmFpcm9iaSBGYXNoaW9uIFdlZWsgLSAyPC90ZXh0Pjwvc3ZnPg=="
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Generations",
+      "category": "Family Portraits",
+      "description": "Timeless family portraits for the modern era.",
+      "images": [
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+R2VuZXJhdGlvbnMgLSAxPC90ZXh0Pjwvc3ZnPg==",
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+R2VuZXJhdGlvbnMgLSAyPC90ZXh0Pjwvc3ZnPg=="
+      ]
+    }
+  ],
+  "services": [
+    {
+      "id": "s1",
+      "title": "Standard Portrait Session",
+      "price": "KSh 15,000",
+      "description": "1-hour studio or outdoor session. Includes 15 retouched images."
+    },
+    {
+      "id": "s2",
+      "title": "Corporate Branding Profile",
+      "price": "KSh 25,000",
+      "description": "2-hour location shoot. Perfect for business websites and LinkedIn."
+    },
+    {
+      "id": "s3",
+      "title": "Full Day Wedding Package",
+      "price": "KSh 150,000",
+      "description": "10 hours of coverage, 2 photographers, online gallery."
+    }
+  ],
+  "clientFiles": [
+    {
+      "id": "f1",
+      "userId": "user123",
+      "name": "High-Res-Portrait-01.jpg",
+      "size": "12.4 MB",
+      "format": "JPEG",
+      "date": "2024-05-10"
+    },
+    {
+      "id": "f2",
+      "userId": "user123",
+      "name": "Family-Session-Edited.zip",
+      "size": "450 MB",
+      "format": "ZIP",
+      "date": "2024-05-12"
+    },
+    {
+      "id": "f3",
+      "userId": "user123",
+      "name": "RAW-Files-Archive.zip",
+      "size": "2.1 GB",
+      "format": "ZIP",
+      "date": "2024-05-12"
+    }
+  ],
+  "heroSlides": [
+    {
+      "id": "h1",
+      "title": "Nairobi's Finest",
+      "subtitle": "Crafting timeless human moments.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+SGVybyBTbGlkZSAxIC0gUG9ydHJhaXRzPC90ZXh0Pjwvc3ZnPg=="
+    },
+    {
+      "id": "h2",
+      "title": "Studio Sessions",
+      "subtitle": "Book your corporate profile today.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+SGVybyBTbGlkZSAyIC0gU3R1ZGlvPC90ZXh0Pjwvc3ZnPg=="
+    },
+    {
+      "id": "h3",
+      "title": "Wedding Stories",
+      "subtitle": "Elegant memories that last forever.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzE2MTYxNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSIjNDA0MDQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+SGVybyBTbGlkZSAzIC0gV2VkZGluZ3M8L3RleHQ+PC9zdmc+"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "1779103140115",
+      "name": "Bmk@955 ",
+      "email": "jangounchained@gmail.com",
+      "date": "2026-05-14",
+      "serviceId": "s1",
+      "status": "pending",
+      "createdAt": "2026-05-18T11:19:00.115Z"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "316 Studios Portfolio",
+  "description": "Professional photography portfolio and secure client delivery platform. Features project galleries, high-quality image slideshows, and a personal file library for clients with secure downloads.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

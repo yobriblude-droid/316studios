@@ -1,0 +1,5 @@
+app.db
+.env
+.env.*
+dist/server.cjs
+node_modules/.cache

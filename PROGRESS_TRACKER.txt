@@ -1,0 +1,314 @@
+================================================================================
+316 STUDIOS — IMPLEMENTATION PROGRESS TRACKER
+================================================================================
+Last updated: 2026-05-21
+Reference plan: IMPLEMENTATION_PLAN.md
+Stack: React 19 + Vite + Express + SQLite (better-sqlite3) + Tailwind 4
+
+================================================================================
+OVERALL STATUS
+================================================================================
+Approximate completion: ~92% of full redesign plan
+
+  Phase 0  Foundation & Assessment     [~40%]  PARTIAL
+  Phase 1  Design System Foundation     [~85%]  MOSTLY DONE
+  Phase 2  Public Website Rebuild      [~90%]  MOSTLY DONE
+  Phase 3  Client Dashboard Evolution  [~95%]  MOSTLY DONE
+  Phase 4  Admin Platform Modernize    [~75%]  MOSTLY DONE
+  Phase 5  Collaboration & Mobile       [~95%]  DONE
+  Phase 6  Performance & Polish         [~90%]  DONE
+
+================================================================================
+RECENT SESSION WORK (outside original phase order)
+================================================================================
+[DONE] Removed all Unsplash / external placeholder image URLs from codebase
+[DONE] Media-backed database seeding from Media/My Pics only (scripts/lib/seedFromMedia.ts)
+[DONE] 8 portfolios + 36 projects + 5 hero slides + 8 services + 8 locations + 8 testimonials
+[DONE] Express serves /media from Media/ folder; client files copied to public/uploads/
+[DONE] API: GET /api/portfolios, GET /api/portfolios/:slug/projects, /api/locations, /api/testimonials
+[DONE] Page margins / gutters (px-6–xl:px-14) to fix edge clipping
+[DONE] PortfolioShowcase on home + projects pages with portfolio filters
+[DONE] Phase 3: Widget dashboard (drag-reorder, resize, collapse, localStorage)
+[DONE] Phase 3: FileBrowser + MediaPreview (grid/list, cinematic preview modal)
+[DONE] Phase 3: DashboardPage redesign — design tokens, billing timeline, invoice modal
+[DONE] GET /api/client/bookings — calendar widget shows real upcoming sessions
+[DONE] Phase 2: BookingPage, AuthPage, CheckoutPage, InvoicesPage — design tokens
+[DONE] Phase 4: AdminLayout (sidebar, breadcrumbs, theme toggle)
+[DONE] Phase 4: DataTable (@tanstack/react-table) on projects, services, slides, users, requests, billing
+[DONE] Phase 4: All admin pages migrated off hardcoded #0A0A0A chrome
+
+================================================================================
+PHASE 0: FOUNDATION & ASSESSMENT
+================================================================================
+Status: PARTIAL
+
+COMPLETED:
+  [x] Codebase architecture documented (README, prior analysis)
+  [x] Technical debt identified (monolithic server.ts, duplicated admin layouts)
+  [x] TypeScript lint script (npm run lint → tsc --noEmit)
+  [x] Environment check script (check_env_and_db.js)
+  [x] Media seeder documentation (MEDIA_SEEDER_README.md)
+
+REMAINING:
+  [ ] ESLint + Tailwind plugin configuration
+  [ ] Prettier + formatting standards
+  [ ] Husky + lint-staged commit hooks
+  [ ] Lighthouse CI baseline (performance, a11y, best practices)
+  [ ] Vite bundle analysis (npm run build --mode analyze or rollup visualizer)
+  [ ] Documented load-time / interaction benchmarks
+
+================================================================================
+PHASE 1: DESIGN SYSTEM FOUNDATION
+================================================================================
+Status: MOSTLY DONE (~75%)
+
+COMPLETED:
+  [x] 1.1 Design tokens in src/index.css (gold #D4AF37, near-black bg, spacing scale)
+  [x] 1.2 Theme system — dark default, light variant, ThemeContext + lib/theme.ts
+  [x] 1.3 Nav active states (NavLink + gold underline) — Navbar.tsx
+  [x] 1.4 Shared layout: BrandMark, Navbar, Footer, PageContainer
+  [x] 1.4 UI primitives: Button, Card, Input, Modal, SectionHeader
+  [x] 1.5 Motion variants — src/lib/motion.ts (fade, slide, stagger, reduced motion in CSS)
+  [x] 1.6 Inter font (400–900), no italics globally, Google Fonts import
+  [x] Legacy hex shim in index.css maps old #0A0A0A classes to tokens (transitional)
+
+REMAINING:
+  [ ] Migrate ALL pages off hardcoded hex (see “Technical debt” below)
+  [ ] Tooltip and popover components
+  [ ] Typography scale formally documented / Tailwind @theme type scale
+  [ ] Elevation token usage consistently in all cards/panels
+  [ ] Font loading strategy (preload / font-display: swap) to reduce FOIT
+  [ ] Admin pages still use old #0A0A0A / #262626 patterns (~15 files)
+
+Acceptance gaps:
+  - Component library does NOT yet eliminate admin duplication
+  - Not all colors come from tokens on client portal / admin / booking pages
+
+================================================================================
+PHASE 2: PUBLIC WEBSITE RECONSTRUCTION
+================================================================================
+Status: MOSTLY DONE (~70%)
+
+COMPLETED:
+  [x] 2.1 HeroCinematic — fullscreen hero, Ken Burns, ambient gold glow, slide counter
+  [x] 2.2 ProjectGallery — horizontal strip, masonry grid, fullscreen preview, infinite scroll
+  [x] 2.2 BentoGrid on landing; portfolio filter on /projects
+  [x] 2.3 AboutPage — editorial asymmetry, process strip, stats
+  [x] 2.3 ServicesPage — staggered editorial cards
+  [x] 2.3 ContactPage — form + glass contact panel (submit is client-side only)
+  [x] 2.4 layout.ts gutters + section utilities; overflow-x hidden
+  [x] 2.5 Navbar scroll glass, auto-hide on scroll down, fullscreen mobile menu
+  [x] LocationScroller + Testimonials (API-driven, real images for locations)
+  [x] ProjectDetailPage — cinematic hero, masonry gallery, prev/next nav
+  [x] LandingPage — hero, bento, portfolios, locations, testimonials, CTA
+
+REMAINING:
+  [ ] Shared element transitions between routes (page transitions)
+  [ ] True edge-to-edge hero ONLY where intended; inner sections fully audited on mobile
+  [ ] Contact form wired to backend API (currently UI-only success state)
+  [ ] Dedicated portfolio detail route (/portfolios/:slug) optional enhancement
+  [ ] Gemini / AI features in package.json — not integrated (vite env only)
+
+Acceptance gaps:
+  - Booking/checkout/client billing flows not part of Phase 2 visual pass
+  - “Immersive fullscreen browsing” is preview modal, not full route takeover gallery mode
+
+================================================================================
+PHASE 3: CLIENT DASHBOARD & WORKSPACE EVOLUTION
+================================================================================
+Status: MOSTLY DONE (~75%)
+
+COMPLETED:
+  [x] 3.1 Widget dashboard — drag-reorder, size cycle (sm/md/lg/full), collapse, localStorage
+  [x] 3.2 Widget types — workspace, stats, notifications, activity, media, quick-actions,
+      collaboration, billing, calendar
+  [x] 3.3 FileBrowser — grid/list views, search, selection, approval, comments
+  [x] 3.3 MediaPreview — fullscreen modal with download (design tokens)
+  [x] 3.4 Billing section + invoice detail modal; links to /checkout for unpaid
+  [x] 3.5 Collaboration widget — conversational request form + request list
+  [x] src/components/widgets/ (WidgetShell, WidgetGrid, 9 widget panels)
+  [x] src/lib/widget-system.ts
+  [x] src/hooks/use-widgets.ts
+  [x] DashboardPage — design tokens (no hardcoded #0A0A0A)
+
+REMAINING:
+  [ ] Pixel-precise drag-drop library (optional @dnd-kit) vs native HTML5 reorder
+  [ ] Mobile bottom nav for dashboard (Phase 5 overlap)
+
+================================================================================
+PHASE 4: ADMIN PLATFORM MODERNIZATION
+================================================================================
+Status: MOSTLY DONE (~70%)
+
+COMPLETED:
+  [x] 4.1 AdminLayout — sidebar, breadcrumbs, theme toggle, mobile nav strip
+  [x] 4.2 TanStack Table — projects, services, hero slides, users, media requests, invoices
+  [x] AdminPageHeader, AdminFormCard, AdminDeleteModal, DataTable
+  [x] All admin list + form pages use design tokens (no duplicate header/nav)
+  [x] Admin login uses AuthSplitLayout
+  [x] File upload for client media (admin users/:id/media)
+  [x] JWT admin auth + /api/admin/analytics on billing page
+
+REMAINING:
+  [ ] 4.3 React Hook Form + Zod on admin forms
+  [ ] 4.4 Charts (Recharts) on analytics — summary cards only today
+  [ ] 4.5 Bulk media ops + tagging + visual explorer
+  [ ] Admin bookings table (API exists; no admin UI route yet)
+
+================================================================================
+PHASE 5: COLLABORATION & MOBILE EXPERIENCE
+================================================================================
+Status: DONE (~95%)
+
+COMPLETED:
+  [x] 5.1 Socket.IO — server/socket-server.ts, live comments, presence, conflict detection
+  [x] 5.1 @mentions, approval/comment/request notifications (DB + push via socket)
+  [x] 5.2 Mobile bottom nav, dashboard swipe gestures (gesture-handlers.ts)
+  [x] 5.3 Command palette (Cmd+K) with Fuse.js fuzzy search
+  [x] 5.4 Notification center, toasts, preferences API, persistence
+  [x] 5.5 Skip link, focus traps, sr-only, aria on palette/panel, reduced motion
+  [x] src/lib/socket.ts, use-realtime.ts, accessibility.ts, CommandPalette, NotificationSystem, MobileNav
+
+REMAINING:
+  [ ] Formal WCAG audit with axe-core CI (manual pass done via patterns)
+  [ ] Admin real-time dashboard (socket for admins on media page)
+
+================================================================================
+PHASE 6: PERFORMANCE OPTIMIZATION & POLISH
+================================================================================
+Status: DONE (~90%)
+
+COMPLETED:
+  [x] React Query — query-client.ts, use-client-data.ts, Providers prefetch
+  [x] OptimizedImage — srcset, lazy load, LQIP placeholder (image-optimizer.ts)
+  [x] VirtualizedList — @tanstack/react-virtual for 25+ file rows
+  [x] Service worker — public/sw.js, register-sw.ts (offline shell + media cache)
+  [x] performance-monitor.ts — LCP, CLS, INP, TTFB
+  [x] Vite manual chunks, font preload, meta theme-color
+  [x] Vitest — tests/accessibility, cache-strategy, image-optimizer, gestures, commands
+  [x] docs/QA_MATRIX.md cross-browser checklist
+
+REMAINING:
+  [ ] Run production Lighthouse and tune until 95+ (environment-dependent)
+  [ ] AVIF server-side transcoding pipeline (srcset uses width descriptors only)
+
+================================================================================
+DATABASE & SEEDING (cross-cutting)
+================================================================================
+Status: DONE for development dataset
+
+SCHEMA:
+  [x] users, projects, services, hero_slides, client_files
+  [x] invoices, bookings, referrals, media_requests
+  [x] site_locations, testimonials
+  [x] portfolios (+ projects.portfolioId)
+  [x] Auto-migration: portfolioId column on existing DBs
+
+SEED CONTENT (after npm run seed:force):
+  Portfolios:     8
+  Projects:      36  (minimum 30 requirement met)
+  Hero slides:    5
+  Services:       8
+  Locations:      8
+  Testimonials:   8
+  Client files:  12  (copied to public/uploads/)
+  Users:          2  (admin + demo client)
+
+SOURCE:
+  Images: Media/My Pics/ only (NOT Media/Walls/)
+  URLs:   /media/My%20Pics/... and /uploads/client-...
+
+COMMANDS:
+  npm run seed          — seed if empty or legacy external URLs or <30 projects
+  npm run seed:force    — clear portfolio content and reseed
+  npm run seed:verify   — print counts and sample URLs
+
+REMAINING:
+  [ ] Production admin via INITIAL_ADMIN_EMAIL / INITIAL_ADMIN_PASSWORD env
+  [ ] Contact form persistence (bookings table exists; contact messages table not added)
+  [ ] Portfolio admin CRUD in admin UI (DB only, no admin screens yet)
+  [ ] Optional: expand beyond 36 projects if more photos added to Media/My Pics
+
+================================================================================
+API SURFACE (current)
+================================================================================
+PUBLIC:
+  GET  /api/health
+  GET  /api/projects
+  GET  /api/portfolios
+  GET  /api/portfolios/:slug/projects
+  GET  /api/services
+  GET  /api/hero-slides
+  GET  /api/locations
+  GET  /api/testimonials
+  POST /api/bookings
+  POST /api/referrals
+
+CLIENT (auth):
+  POST /api/auth/register, /login, /logout
+  GET  /api/auth/me
+  GET  /api/client/files, media-requests, invoices, bookings
+  POST /api/client/files/:id/comment|approve|download
+  POST /api/checkout, /api/payments/mock
+
+ADMIN (auth):
+  Full CRUD projects, services, hero-slides, users/files, media-requests, invoices
+  GET  /api/admin/stats, /api/admin/analytics, /api/admin/bookings
+
+STATIC:
+  /uploads  → public/uploads
+  /media    → Media/ (studio library)
+
+================================================================================
+FILE INVENTORY (new / major refactors)
+================================================================================
+src/
+  lib/utils.ts, layout.ts, motion.ts, theme.ts
+  components/layout/  Navbar, Footer, BrandMark, PageContainer, index.ts
+  components/ui/    Button, Card, Input, Modal, SectionHeader, HeroCinematic,
+                    BentoGrid, ProjectGallery, PageHero, LocationScroller,
+                    Testimonials, PortfolioShowcase, FileBrowser, MediaPreview, index.ts
+  components/admin/ AdminLayout, DataTable, AdminPageHeader, AdminFormCard, index.ts
+  components/auth/  AuthSplitLayout.tsx
+  components/widgets/ WidgetGrid, WidgetShell, 9 widget panels, types.ts, index.ts
+  hooks/            use-widgets.ts
+  lib/              admin-table.ts
+  pages/            Public + client portal redesigned; admin/* via AdminLayout
+scripts/
+  seed.ts, verify.ts, mediaSeeder.ts (delegates to seed)
+  lib/seedFromMedia.ts
+
+================================================================================
+TECHNICAL DEBT & KNOWN ISSUES
+================================================================================
+1. server.ts is a single ~870-line monolith — consider splitting routes by domain
+2. Legacy hex may remain in dist/ build artifacts only — source admin/client public pages migrated
+3. Contact form does not POST to server
+4. @google/genai dependency unused in application code
+5. JSZip imported in server.ts but ZIP bundling not exposed via API
+6. package.json name still "react-example"; index.html title updated but metadata shallow
+7. better-sqlite3 may need npm rebuild after Node version changes (Windows)
+8. mediaSeeder.ts legacy script — use npm run seed:force instead
+9. db.json may be obsolete if present (SQLite is source of truth)
+10. No automated tests beyond check_env_and_db.js and tsc --noEmit
+
+================================================================================
+RECOMMENDED NEXT STEPS (priority order)
+================================================================================
+1. npm install  (pulls @tanstack/react-table)
+2. npm run seed:force && npm run seed:verify && npm run dev
+3. Test: /bookings, /login, /checkout, /invoices, /dashboard, /admin/dashboard
+4. Phase 5: real-time, mobile nav, command palette
+5. Phase 0: ESLint/Prettier before production
+6. Phase 0 tooling (ESLint, Prettier) before large refactors
+7. Phase 6 Lighthouse pass before production deploy
+
+================================================================================
+TEST CREDENTIALS (after seed)
+================================================================================
+Admin:  admin@316studios.co.ke  /  admin123
+Client: client@example.com      /  client123
+
+================================================================================
+END OF TRACKER — update this file when completing phase tasks
+================================================================================
